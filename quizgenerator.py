@@ -5,7 +5,7 @@ import openai
 bot_name = "Quiz Generator Bot"
 
 # Set your API key (make sure it's set in your Streamlit Secrets or env variable in real deploy)
-openai.api_key = os.getenv("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")  # or you can hardcode temporarily for testing
+openai.api_key = os.getenv("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")  # or you can hardcode temporarily for testing
 
 def get_response(topic):
     prompt = f"""
