@@ -1,22 +1,21 @@
-import streamlit as st
-from quizgenerator import get_response, bot_name
+import gradio as gr
 
-# Set Streamlit page config
-st.set_page_config(page_title="AI Quiz Generator", layout="centered")
+def generate_quiz(topic):
+    # Your logic here — this is just an example
+    return f"""🧠 Quiz on "{topic}"
+    
+1. What is {topic}?
+2. Why is {topic} important?
+3. Name a real-world use of {topic}.
+4. Explain {topic} in simple words.
+"""
 
-# UI elements
-st.title("🧠 AI Quiz Generator Chatbot")
-st.write("Generate multiple-choice quiz questions based on any topic using LLaMA3 (Groq API)")
+iface = gr.Interface(
+    fn=generate_quiz,
+    inputs=gr.Textbox(lines=1, placeholder="Enter quiz topic..."),
+    outputs="text",
+    title="📚 QuizGenerator Bot",
+    description="Type a topic and generate an instant quiz!"
+)
 
-# Input from user
-topic = st.text_input("📘 Enter a topic to generate quiz questions", placeholder="e.g. Python Functions")
-
-if st.button("Generate Quiz"):
-    if topic.strip() == "":
-        st.warning("Please enter a topic to generate quiz.")
-    else:
-        with st.spinner("Generating quiz..."):
-            quiz = get_response(topic)
-            st.success("Here’s your quiz:")
-            st.text_area("📋 Quiz Output", quiz, height=300)
-
+iface.launch()
