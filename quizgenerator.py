@@ -1,11 +1,11 @@
 import os
-import openai
+import requests
 
 # Bot Name
 bot_name = "Quiz Generator Bot"
 
-# Set your API key (make sure it's set in your Streamlit Secrets or env variable in real deploy)
-openai.api_key = os.getenv("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")  # or you can hardcode temporarily for testing
+# Your Groq API Key
+GROQ_API_KEY = os.getenv("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")  # Will read from Streamlit secrets
 
 def get_response(topic):
     prompt = f"""
@@ -23,10 +23,20 @@ def get_response(topic):
     """
 
     try:
-        response = openai.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}]
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {GROQ_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": "llama3-8b-8192",  # You can also try "llama3-70b-8192"
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.7
+            }
         )
-        return response.choices[0].message.content.strip()
+        result = response.json()
+        return result["choices"][0]["message"]["content"].strip()
+
     except Exception as e:
         return f"⚠️ Error: {e}"
