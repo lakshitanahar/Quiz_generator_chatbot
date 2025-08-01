@@ -1,17 +1,22 @@
 import streamlit as st
 from quizgenerator import get_response, bot_name
 
-st.set_page_config(page_title="Quiz Generator", layout="centered")
-st.title(f"📚 {bot_name}")
-st.write("Enter a topic to generate multiple-choice questions using AI.")
+# Set Streamlit page config
+st.set_page_config(page_title="AI Quiz Generator", layout="centered")
 
-topic = st.text_input("Enter a Topic", placeholder="e.g. Python Basics")
+# UI elements
+st.title("🧠 AI Quiz Generator Chatbot")
+st.write("Generate multiple-choice quiz questions based on any topic using LLaMA3 (Groq API)")
+
+# Input from user
+topic = st.text_input("📘 Enter a topic to generate quiz questions", placeholder="e.g. Python Functions")
 
 if st.button("Generate Quiz"):
-    if topic:
-        with st.spinner("Generating questions..."):
-            quiz = get_response(topic)
-            st.success("Here are your questions:")
-            st.text_area("Quiz", quiz, height=300)
+    if topic.strip() == "":
+        st.warning("Please enter a topic to generate quiz.")
     else:
-        st.warning("Please enter a topic first.")
+        with st.spinner("Generating quiz..."):
+            quiz = get_response(topic)
+            st.success("Here’s your quiz:")
+            st.text_area("📋 Quiz Output", quiz, height=300)
+
