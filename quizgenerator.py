@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 bot_name = "Quiz Generator Bot"
-GROQ_API_KEY = st.secrets["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"]
+GROQ_API_KEY = st.secrets["YOUR API KEY"]
 
 def get_response(topic):
     prompt = f"""
@@ -45,3 +45,4 @@ def get_response(topic):
 
     except Exception as e:
         return f"⚠️ Exception: {e}"
+
